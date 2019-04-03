@@ -1,6 +1,6 @@
 using System;
 
-namespace webCurso.Models
+namespace webCurso.Models.ViewModels
 {
     public class ErrorViewModel
     {
