@@ -17,6 +17,9 @@ namespace webCurso.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["Message"] = "Teste da Aplicação WEB";
+            ViewData["Email"] = "mauricio.barreto@meganews.com.br";
+
             return View();
         }
 
