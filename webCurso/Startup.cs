@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using webCurso.Models;
 using webCurso.Data;
+using webCurso.Servicos;
 
 namespace webCurso
 {
@@ -41,7 +42,9 @@ namespace webCurso
                     options.UseMySql(Configuration.GetConnectionString("webCursoContext"),
                     builder => builder.MigrationsAssembly("webCurso")));
 
+            // Injeção de dependencias
             services.AddScoped<SeedingService>();
+            services.AddScoped<VendedorService>();
 
         }
 

@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using webCurso.Servicos;
 
 namespace webCurso.Controllers
 {
     public class VendedoresController : Controller
     {
+
+        private readonly VendedorService _vendedorServico;
+
+        public VendedoresController(VendedorService vendedorServico)
+        {
+            _vendedorServico = vendedorServico;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var list = _vendedorServico.FindAll();
+            return View(list);
         }
     }
 }
