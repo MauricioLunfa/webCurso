@@ -22,5 +22,11 @@ namespace webCurso.Servicos
             return _context.Vendedor.ToList();
         }
 
+        public void Insert(Vendedor ven)
+        {
+            _context.Add(ven);
+            _context.SaveChanges();
+        }
+
     }
 }
