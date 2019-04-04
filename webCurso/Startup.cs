@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using webCurso.Models;
+using webCurso.Data;
 
 namespace webCurso
 {
@@ -39,14 +40,18 @@ namespace webCurso
             services.AddDbContext<webCursoContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("webCursoContext"),
                     builder => builder.MigrationsAssembly("webCurso")));
+
+            services.AddScoped<SeedingService>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        // Este método é chamado pelo tempo de execução. Use este método para configurar o pipeline de solicitação de HTTP.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();
             }
             else
             {
