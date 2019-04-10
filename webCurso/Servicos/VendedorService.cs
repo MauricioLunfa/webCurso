@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using webCurso.Data;
 using webCurso.Models;
 using Microsoft.EntityFrameworkCore;
+using webCurso.Servicos.Exceptions;
 
 namespace webCurso.Servicos
 {
@@ -41,6 +42,27 @@ namespace webCurso.Servicos
             var obj = _context.Vendedor.Find(id);
             _context.Vendedor.Remove(obj);
             _context.SaveChanges();
+        }
+
+        public void Update(Vendedor obj)
+        {
+            // Se não existir dados do vendedor 
+            if (!_context.Vendedor.Any(x => x.Id == obj.Id))
+            {
+                throw new NotFoundException("Id não encontrado!");
+            }
+
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+
+            // Se acontecer algum erro de retorno do banco de dados
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
     }
 }
