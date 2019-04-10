@@ -9,8 +9,13 @@ namespace webCurso.Models
     public class Vendedor
     {
         public int Id { get; set; }
+
+        [Required(ErrorMessage ="Nome obrigatório!")]
+        [StringLength(60,MinimumLength =3, ErrorMessage = "Tamanho do nome deve ser entre 3 e 60 caracteres")]
         public string Nome { get; set; }
 
+        [Required(ErrorMessage = "Email obrigatório!")]
+        [EmailAddress(ErrorMessage ="Email inválido!")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
@@ -19,6 +24,8 @@ namespace webCurso.Models
         [DisplayFormat(DataFormatString ="{0:dd/MM/yyyy}")]
         public DateTime DataNascimento { get; set; }
 
+        [Required(ErrorMessage = "Salário obrigatório!")]
+        [Range(100.0,5000.0,ErrorMessage ="Salário não pode ser maior que {2} e menor que {1} ")]
         [Display(Name = "Salário Base")]
         [DisplayFormat(DataFormatString ="{0:F2}")]
         public double SalarioBase { get; set; }
