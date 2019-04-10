@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using webCurso.Models;
+using webCurso.Models.ViewModels;
 using webCurso.Servicos;
 
 namespace webCurso.Controllers
@@ -11,29 +12,33 @@ namespace webCurso.Controllers
     public class VendedoresController : Controller
     {
 
-        private readonly VendedorService _vendedorServico;
+        private readonly VendedorService _vendedorService;
+        private readonly DepartamentoService _departamentoService;
 
-        public VendedoresController(VendedorService vendedorServico)
+        public VendedoresController(VendedorService vendedorService, DepartamentoService departamentoService)
         {
-            _vendedorServico = vendedorServico;
+            _vendedorService = vendedorService;
+            _departamentoService = departamentoService;
         }
 
         public IActionResult Index()
         {
-            var list = _vendedorServico.FindAll();
+            var list = _vendedorService.FindAll();
             return View(list);
         }
 
         public IActionResult Create()
         {
-            return View();
+            var departamentos = _departamentoService.FindAll();
+            var viewModel = new VendedorFormViewModel { Departamentos = departamentos };
+            return View(viewModel);
         }
 
         [HttpPost] // Indicando ação de post
         [ValidateAntiForgeryToken] // Validação de segurança contra ataques
-        public IActionResult Create(Vendedor ven)
+        public IActionResult Create(Vendedor vendedor)
         {
-            _vendedorServico.Insert(ven);
+            _vendedorService.Insert(vendedor);
             return RedirectToAction(nameof(Index));
         }
 

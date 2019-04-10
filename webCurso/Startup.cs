@@ -45,6 +45,7 @@ namespace webCurso
             // Injeção de dependencias
             services.AddScoped<SeedingService>();
             services.AddScoped<VendedorService>();
+            services.AddScoped<DepartamentoService>();
 
         }
 

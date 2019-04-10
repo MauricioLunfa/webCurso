@@ -24,11 +24,10 @@ namespace webCurso.Servicos
 
         public void Insert(Vendedor ven)
         {
-            // Quando não informado o departamento ele pega o do primeiro registro
-            ven.Departamento = _context.Departamento.First();
 
             _context.Add(ven);
             _context.SaveChanges();
+
         }
 
     }
