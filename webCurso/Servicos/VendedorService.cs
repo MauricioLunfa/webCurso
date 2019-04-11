@@ -19,35 +19,37 @@ namespace webCurso.Servicos
             _context = context;
         }
 
-        public List<Vendedor> FindAll()
+        public async Task<List<Vendedor>> CarregaDadosAsync()
         {
-            return _context.Vendedor.ToList();
+            return await _context.Vendedor.ToListAsync();
         }
 
-        public void Insert(Vendedor ven)
+        public async Task InsertAsync(Vendedor ven)
         {
 
             _context.Add(ven);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
         }
 
-        public Vendedor PesquisarId(int id)
+        public async Task<Vendedor> PesquisarIdAsync(int id)
         {
-            return _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefault(obj => obj.Id == id);
+            return await _context.Vendedor.Include(obj => obj.Departamento).FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public void Remover(int id)
+        public async Task RemoverAsync(int id)
         {
-            var obj = _context.Vendedor.Find(id);
+            var obj = await _context.Vendedor.FindAsync(id);
             _context.Vendedor.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Vendedor obj)
+        public async Task UpdateAsync(Vendedor obj)
         {
+
+            bool seTemAlgum = await _context.Vendedor.AnyAsync(x => x.Id == obj.Id);
             // Se não existir dados do vendedor 
-            if (!_context.Vendedor.Any(x => x.Id == obj.Id))
+            if (!seTemAlgum)
             {
                 throw new NotFoundException("Id não encontrado!");
             }
@@ -55,7 +57,7 @@ namespace webCurso.Servicos
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
 
             // Se acontecer algum erro de retorno do banco de dados
