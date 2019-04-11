@@ -72,9 +72,15 @@ namespace webCurso.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _vendedorService.RemoverAsync(id);
-            return RedirectToAction(nameof(Index));
-
+            try
+            {
+                await _vendedorService.RemoverAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (IntegridadeException e)
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
 
         public async Task<IActionResult> Detalhes(int? id)
